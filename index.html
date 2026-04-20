@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>株式会社Life-up</title>
+
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+margin:0;
+font-family:"Helvetica Neue",sans-serif;
+color:#111;
+overflow-x:hidden;
+background:#fff;
+line-height:1.7;
+}
+
+/* 共通 */
+img{max-width:100%;display:block}
+h1,h2,h3,h4,p{margin:0}
+section{padding:90px 6%}
+.section-title{
+font-size:34px;
+margin-bottom:16px;
+text-align:center;
+letter-spacing:.05em;
+}
+.section-subtitle{
+text-align:center;
+color:#666;
+margin-bottom:50px;
+font-size:14px;
+letter-spacing:.08em;
+}
+
+/* ヘッダー */
+header{
+position:fixed;
+width:100%;
+top:0;
+left:0;
+padding:12px 16px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:rgba(0,0,0,.72);
+backdrop-filter:blur(8px);
+color:#fff;
+z-index:1000;
+}
+header h1{
+font-size:22px;
+font-weight:700;
+letter-spacing:.05em;
+}
+nav.desktop-nav{
+display:flex;
+align-items:center;
+gap:8px;
+}
+nav.desktop-nav a{
+color:#fff;
+margin:0 8px;
+text-decoration:none;
+font-size:13px;
+white-space:nowrap;
+transition:.25s;
+}
+nav.desktop-nav a:hover{opacity:.75}
+
+/* ハンバーガー */
+.hamburger{
+width:26px;
+height:20px;
+position:relative;
+cursor:pointer;
+display:none;
+}
+.hamburger span{
+position:absolute;
+width:100%;
+height:3px;
+background:#fff;
+left:0;
+border-radius:10px;
+}
+.hamburger span:nth-child(1){top:0}
+.hamburger span:nth-child(2){top:8px}
+.hamburger span:nth-child(3){bottom:0}
+
+/* モバイル */
+.mobile-nav{
+position:fixed;
+top:0;
+right:-100%;
+width:78%;
+max-width:320px;
+height:100%;
+background:#000;
+color:#fff;
+padding:88px 24px 24px;
+transition:.3s;
+z-index:999;
+}
+.mobile-nav a{
+display:block;
+margin:18px 0;
+color:#fff;
+text-decoration:none;
+font-size:15px;
+}
+.mobile-nav.active{right:0}
+
+/* ヒーロー */
+.hero{
+height:100vh;
+position:relative;
+color:#fff;
+overflow:hidden;
+background:
+linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.45)),
+url("img/hero-poster.jpg") center center / cover no-repeat;
+}
+.hero video{
+position:absolute;
+inset:0;
+width:100%;
+height:100%;
+object-fit:cover;
+filter:brightness(0.88) contrast(1.05);
+opacity:0;
+transition:opacity .8s ease;
+}
+.hero.video-ready video{
+opacity:1;
+}
+.hero::after{
+content:"";
+position:absolute;
+inset:0;
+background:rgba(0,0,0,.55);
+z-index:1;
+}
+.hero-content{
+position:relative;
+z-index:2;
+text-align:center;
+top:50%;
+transform:translateY(-50%);
+padding:0 20px;
+max-width:980px;
+margin:0 auto;
+}
+.hero-content .hero-sub{
+font-size:14px;
+letter-spacing:.22em;
+margin-bottom:18px;
+opacity:0;
+transform:translateY(24px);
+animation:heroFadeUp .9s ease forwards;
+animation-delay:.2s;
+}
+.hero-title-line{
+display:block;
+opacity:0;
+transform:translateY(30px);
+animation:heroFadeUp 1s cubic-bezier(.22,1,.36,1) forwards;
+}
+.hero-title-line.line1{animation-delay:.45s}
+.hero-title-line.line2{animation-delay:.75s}
+.hero-content h2{
+font-size:clamp(34px,6vw,68px);
+line-height:1.12;
+letter-spacing:.06em;
+margin-bottom:20px;
+}
+.hero-content p{
+max-width:760px;
+margin:0 auto;
+font-size:15px;
+opacity:0;
+transform:translateY(24px);
+animation:heroFadeUp .9s ease forwards;
+animation-delay:1.05s;
+}
+.hero-actions{
+display:flex;
+justify-content:center;
+gap:16px;
+flex-wrap:wrap;
+margin-top:30px;
+opacity:0;
+transform:translateY(24px);
+animation:heroFadeUp .9s ease forwards;
+animation-delay:1.3s;
+}
+.hero-btn{
+display:inline-flex;
+align-items:center;
+justify-content:center;
+min-width:210px;
+padding:14px 24px;
+border-radius:999px;
+text-decoration:none;
+font-weight:700;
+font-size:14px;
+letter-spacing:.04em;
+transition:transform .25s ease, background .25s ease, border-color .25s ease, opacity .25s ease;
+}
+.hero-btn:hover{
+transform:translateY(-3px);
+}
+.hero-btn.primary{
+background:#fff;
+color:#111;
+box-shadow:0 14px 36px rgba(0,0,0,.22);
+}
+.hero-btn.secondary{
+color:#fff;
+border:1px solid rgba(255,255,255,.5);
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(6px);
+}
+
+/* ヒーローアニメ */
+@keyframes heroFadeUp{
+from{
+opacity:0;
+transform:translateY(24px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+/* 事業内容 */
+#service{background:#fafafa}
+.service{
+display:flex;
+gap:34px;
+margin-bottom:70px;
+align-items:center;
+opacity:0;
+transform:translateY(60px) scale(.96);
+transition:opacity .8s ease, transform .8s cubic-bezier(.22,1,.36,1);
+}
+.service.show{
+opacity:1;
+transform:translateY(0) scale(1);
+}
+.service img{
+width:50%;
+border-radius:16px;
+box-shadow:0 12px 34px rgba(0,0,0,.14);
+transition:transform .45s ease, box-shadow .45s ease;
+}
+.service:hover img{
+transform:scale(1.045) translateY(-6px);
+box-shadow:0 24px 60px rgba(0,0,0,.22);
+}
+.service-text{
+width:50%;
+opacity:0;
+transition:
+opacity .8s ease,
+transform .8s cubic-bezier(.22,1,.36,1);
+}
+.service-text h3{
+font-size:28px;
+margin-bottom:14px;
+}
+.service-text p{
+color:#555;
+font-size:15px;
+}
+
+/* 左右交互 */
+.service:nth-child(even){
+flex-direction:row-reverse;
+}
+
+/* テキストの出現方向 */
+.service:nth-child(odd) .service-text{
+transform:translateX(80px);
+}
+.service:nth-child(even) .service-text{
+transform:translateX(-80px);
+}
+
+/* 表示時は中央へ */
+.service.show .service-text{
+opacity:1;
+transform:translateX(0);
+}
+
+/* 会社概要 */
+#about{
+background:linear-gradient(180deg,#ffffff 0%,#f7f8fa 100%);
+}
+.about-wrap{
+max-width:1200px;
+margin:0 auto;
+}
+.about-lead{
+max-width:860px;
+margin:0 auto 56px;
+text-align:center;
+}
+.about-lead h3{
+font-size:30px;
+margin-bottom:18px;
+line-height:1.4;
+}
+.about-lead p{
+color:#555;
+font-size:15px;
+}
+
+.about-main{
+display:grid;
+grid-template-columns:1.1fr .9fr;
+gap:34px;
+align-items:stretch;
+margin-bottom:34px;
+}
+
+.about-message,
+.about-info{
+background:#fff;
+border-radius:20px;
+padding:34px;
+box-shadow:0 14px 40px rgba(0,0,0,.08);
+}
+
+.about-message{
+position:relative;
+overflow:hidden;
+}
+.about-message::before{
+content:"";
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:5px;
+background:linear-gradient(90deg,#111,#666,#111);
+opacity:.9;
+}
+.about-message h3{
+font-size:26px;
+margin-bottom:18px;
+}
+.about-message p{
+color:#555;
+margin-bottom:16px;
+}
+.about-sign{
+margin-top:26px;
+font-weight:700;
+letter-spacing:.08em;
+}
+
+.about-info h3{
+font-size:24px;
+margin-bottom:20px;
+}
+.info-table{
+display:grid;
+grid-template-columns:160px 1fr;
+border-top:1px solid #e6e6e6;
+}
+.info-row{
+display:contents;
+}
+.info-head,
+.info-data{
+padding:16px 0;
+border-bottom:1px solid #e6e6e6;
+font-size:14px;
+}
+.info-head{
+font-weight:700;
+color:#222;
+padding-right:18px;
+}
+.info-data{
+color:#555;
+}
+
+.about-strengths{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:24px;
+margin-top:12px;
+}
+.strength-card{
+background:#fff;
+border-radius:20px;
+padding:28px 24px;
+box-shadow:0 14px 40px rgba(0,0,0,.08);
+transition:.3s;
+}
+.strength-card:hover{
+transform:translateY(-6px);
+box-shadow:0 22px 48px rgba(0,0,0,.14);
+}
+.strength-number{
+font-size:13px;
+letter-spacing:.18em;
+color:#888;
+margin-bottom:10px;
+}
+.strength-card h4{
+font-size:20px;
+margin-bottom:12px;
+}
+.strength-card p{
+font-size:14px;
+color:#555;
+}
+
+/* スライダー */
+#slider{background:#fff}
+.slider{
+position:relative;
+overflow:hidden;
+max-width:1100px;
+margin:0 auto;
+}
+.slides{
+display:flex;
+transition:.4s;
+}
+.slide{
+min-width:100%;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:10px 0;
+}
+.slide img{
+width:70%;
+max-width:760px;
+aspect-ratio:4/3;
+object-fit:cover;
+border-radius:16px;
+cursor:pointer;
+box-shadow:0 12px 34px rgba(0,0,0,.14);
+transition:transform .3s ease, box-shadow .3s ease;
+}
+.slide img:hover{
+transform:scale(1.03);
+box-shadow:0 24px 60px rgba(0,0,0,.22);
+}
+.slider-btn{
+position:absolute;
+top:50%;
+transform:translateY(-50%);
+background:rgba(0,0,0,.58);
+color:#fff;
+padding:12px 14px;
+cursor:pointer;
+z-index:10;
+border-radius:999px;
+user-select:none;
+}
+.prev{left:10px}
+.next{right:10px}
+
+/* モーダル */
+.modal{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.86);
+display:flex;
+justify-content:center;
+align-items:center;
+opacity:0;
+visibility:hidden;
+transition:.25s;
+z-index:2000;
+}
+.modal.active{
+opacity:1;
+visibility:visible;
+}
+.modal-content{
+position:relative;
+text-align:center;
+color:#fff;
+width:min(92vw,980px);
+padding:0 40px;
+}
+.modal img{
+max-width:100%;
+max-height:75vh;
+margin:0 auto;
+border-radius:16px;
+box-shadow:0 25px 80px rgba(0,0,0,.5);
+transform:scale(.9);
+transition:.25s;
+}
+.modal.active img{transform:scale(1)}
+.modal-title{
+margin-top:16px;
+font-size:20px;
+font-weight:700;
+}
+.modal-desc{
+margin-top:6px;
+font-size:14px;
+color:#d7d7d7;
+}
+.close-btn{
+position:absolute;
+top:-42px;
+right:10px;
+font-size:30px;
+cursor:pointer;
+line-height:1;
+}
+.modal-btn{
+position:absolute;
+top:50%;
+transform:translateY(-50%);
+color:#fff;
+font-size:30px;
+cursor:pointer;
+padding:10px;
+user-select:none;
+}
+.modal-prev{left:0}
+.modal-next{right:0}
+
+/* お問い合わせ */
+#contact{
+background:#111;
+color:#fff;
+}
+.contact-box{
+max-width:980px;
+margin:0 auto;
+background:linear-gradient(135deg,rgba(255,255,255,.08),rgba(255,255,255,.03));
+border:1px solid rgba(255,255,255,.12);
+border-radius:24px;
+padding:40px 32px;
+text-align:center;
+}
+.contact-box h3{
+font-size:30px;
+margin-bottom:14px;
+}
+.contact-box p{
+color:#ddd;
+font-size:15px;
+margin-bottom:28px;
+}
+.contact-actions{
+display:flex;
+justify-content:center;
+gap:16px;
+flex-wrap:wrap;
+}
+.contact-btn{
+display:inline-block;
+padding:14px 24px;
+border-radius:999px;
+text-decoration:none;
+font-weight:700;
+transition:.25s;
+}
+.contact-btn.primary{
+background:#fff;
+color:#111;
+}
+.contact-btn.secondary{
+border:1px solid rgba(255,255,255,.3);
+color:#fff;
+}
+.contact-btn:hover{
+transform:translateY(-2px);
+}
+
+/* フッター */
+footer{
+background:#000;
+color:#fff;
+padding:50px 20px 30px;
+}
+.footer-grid{
+max-width:1200px;
+margin:0 auto;
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:24px;
+}
+.footer-title{
+font-weight:700;
+margin-bottom:12px;
+font-size:15px;
+letter-spacing:.04em;
+}
+footer p{
+color:#d0d0d0;
+font-size:14px;
+}
+
+/* レスポンシブ */
+@media(max-width:980px){
+.about-main{
+grid-template-columns:1fr;
+}
+.about-strengths{
+grid-template-columns:1fr;
+}
+.info-table{
+grid-template-columns:130px 1fr;
+}
+}
+
+@media(max-width:768px){
+header h1{
+font-size:20px;
+}
+nav.desktop-nav{display:none}
+.hamburger{display:block}
+
+section{padding:78px 5%}
+
+.hero-actions{
+flex-direction:column;
+align-items:center;
+gap:12px;
+}
+.hero-btn{
+width:100%;
+max-width:320px;
+}
+
+.service{
+flex-direction:column !important;
+gap:22px;
+}
+.service img,.service-text{
+width:100%;
+}
+.service-text h3{
+font-size:24px;
+}
+
+.service:nth-child(odd) .service-text,
+.service:nth-child(even) .service-text{
+transform:translateY(40px);
+}
+.service.show .service-text{
+transform:translateY(0);
+}
+
+.about-lead h3{
+font-size:26px;
+}
+.about-message,
+.about-info,
+.strength-card{
+padding:26px 22px;
+}
+.info-table{
+grid-template-columns:100px 1fr;
+}
+
+.slide img{
+width:90%;
+}
+
+.modal-content{
+padding:0 28px;
+}
+.modal-prev{left:-4px}
+.modal-next{right:-4px}
+
+.footer-grid{
+grid-template-columns:1fr;
+}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>株式会社Life-up</h1>
+<nav class="desktop-nav">
+<a href="#service">事業内容</a>
+<a href="#about">会社概要</a>
+<a href="#slider">施工事例</a>
+<a href="#contact">お問い合わせ</a>
+</nav>
+<div class="hamburger" onclick="toggleMenu()">
+<span></span><span></span><span></span>
+</div>
+</header>
+
+<div class="mobile-nav" id="mobileNav">
+<a href="#service" onclick="toggleMenu()">事業内容</a>
+<a href="#about" onclick="toggleMenu()">会社概要</a>
+<a href="#slider" onclick="toggleMenu()">施工事例</a>
+<a href="#contact" onclick="toggleMenu()">お問い合わせ</a>
+</div>
+
+<section class="hero" id="hero">
+<video autoplay muted loop playsinline preload="metadata" poster="img/hero-poster.jpg" id="heroVideo">
+<source src="img/headermv.mp4" type="video/mp4">
+</video>
+<div class="hero-content">
+<p class="hero-sub">LIFE-UP CORPORATION</p>
+<h2>
+<span class="hero-title-line line1">REAL WORK.</span>
+<span class="hero-title-line line2">REAL VALUE.</span>
+</h2>
+<p>現場力と対応力を武器に、重量物搬入据付・内装工事・仮設足場・通信分野まで、幅広い領域で確かな施工と支援を提供します。</p>
+<div class="hero-actions">
+<a href="#contact" class="hero-btn primary">お問い合わせはこちら</a>
+<a href="#slider" class="hero-btn secondary">施工事例を見る</a>
+</div>
+</div>
+</section>
+
+<section id="service">
+<h2 class="section-title">事業内容</h2>
+<p class="section-subtitle">SERVICE</p>
+
+<div class="service">
+<img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e" alt="重量物搬入据付">
+<div class="service-text">
+<h3>重量物搬入据付</h3>
+<p>大型機器や重量物の搬入・据付を、安全性と正確性を重視して対応します。現場条件に応じた段取りと施工計画で、スムーズな導入を実現します。</p>
+</div>
+</div>
+
+<div class="service">
+<img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd" alt="内装工事一式">
+<div class="service-text">
+<h3>内装工事一式</h3>
+<p>設計意図と現場品質の両立を意識し、内装工事を一貫して対応。店舗・オフィス・各種施設において、使いやすく価値ある空間づくりを支えます。</p>
+</div>
+</div>
+
+<div class="service">
+<img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5" alt="仮設足場一式">
+<div class="service-text">
+<h3>仮設足場一式</h3>
+<p>施工効率と作業安全を両立する足場計画・施工を行います。現場ごとの条件に応じて、安心して作業できる足場環境を構築します。</p>
+</div>
+</div>
+
+<div class="service">
+<img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d" alt="通信・業務委託請負">
+<div class="service-text">
+<h3>通信・業務委託請負</h3>
+<p>ショップ・量販店・催事イベントなどでのスマートフォン販売支援や接客業務を中心に、現場運営を支える業務委託サービスを提供しています。</p>
+</div>
+</div>
+</section>
+
+<section id="about">
+<div class="about-wrap">
+<h2 class="section-title">会社概要</h2>
+<p class="section-subtitle">ABOUT US</p>
+
+<div class="about-lead">
+<h3>現場に強く、信頼で選ばれる会社へ。</h3>
+<p>株式会社Life-upは、施工現場における確かな技術と、対人業務における柔軟な対応力の両方を強みに、幅広い事業領域で価値を提供する会社です。単に業務をこなすだけではなく、現場・取引先・お客様それぞれにとって「任せてよかった」と感じていただける仕事を積み重ねることを大切にしています。</p>
+</div>
+
+<div class="about-main">
+<div class="about-message">
+<h3>ごあいさつ</h3>
+<p>当社は、重量物搬入据付、内装工事、仮設足場、通信分野の業務支援まで、多様な現場に対応する実務力を基盤として事業を展開しています。</p>
+<p>どの事業においても共通しているのは、現場を理解し、求められる品質を着実に形にしていく姿勢です。安全性、丁寧さ、スピード感、そして信頼関係を何より重視し、1件1件の仕事に真摯に向き合っています。</p>
+<p>今後も、お客様の課題解決に寄り添いながら、より高い付加価値を提供できる企業を目指してまいります。</p>
+<div class="about-sign">株式会社Life-up</div>
+</div>
+
+<div class="about-info">
+<h3>会社情報</h3>
+<div class="info-table">
+<div class="info-row">
+<div class="info-head">会社名</div>
+<div class="info-data">株式会社Life-up</div>
+</div>
+<div class="info-row">
+<div class="info-head">所在地</div>
+<div class="info-data">〒918-8046 福井県福井市運動公園１丁目３６０６番地</div>
+</div>
+<div class="info-row">
+<div class="info-head">代表者</div>
+<div class="info-data">リュウ ヨウ</div>
+</div>
+<div class="info-row">
+<div class="info-head">設立</div>
+<div class="info-data">2026年05月18日</div>
+</div>
+<div class="info-row">
+<div class="info-head">事業内容</div>
+<div class="info-data">重量物搬入据付 / 内装工事一式 / 仮設足場一式 / 通信・業務委託請負</div>
+</div>
+<div class="info-row">
+<div class="info-head">電話番号</div>
+<div class="info-data">090-1317-8898</div>
+</div>
+<div class="info-row">
+<div class="info-head">メール</div>
+<div class="info-data">info@ry-lifeup.com</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="about-strengths">
+<div class="strength-card">
+<div class="strength-number">01</div>
+<h4>現場対応力</h4>
+<p>工程・安全・品質のバランスを踏まえ、現場ごとの条件に合わせた柔軟な対応を行います。</p>
+</div>
+<div class="strength-card">
+<div class="strength-number">02</div>
+<h4>幅広い事業領域</h4>
+<p>施工系業務から通信分野の業務支援まで、複数領域に対応できる体制でニーズに応えます。</p>
+</div>
+<div class="strength-card">
+<div class="strength-number">03</div>
+<h4>信頼重視の仕事</h4>
+<p>丁寧なコミュニケーションと責任ある対応で、長くお付き合いいただける関係づくりを大切にしています。</p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="slider">
+<h2 class="section-title">施工事例</h2>
+<p class="section-subtitle">WORKS</p>
+
+<div class="slider">
+<div class="slider-btn prev" onclick="prevSlide()">◀</div>
+<div class="slider-btn next" onclick="nextSlide()">▶</div>
+<div class="slides" id="slides"></div>
+</div>
+</section>
+
+<div class="modal" id="modal" onclick="closeModal(event)">
+<span class="modal-btn modal-prev" onclick="modalPrev(event)">◀</span>
+<div class="modal-content" onclick="event.stopPropagation()">
+<span class="close-btn" onclick="closeModalDirect()">×</span>
+<img id="modalImg" alt="施工事例">
+<div class="modal-title" id="modalTitle"></div>
+<div class="modal-desc" id="modalDesc"></div>
+</div>
+<span class="modal-btn modal-next" onclick="modalNext(event)">▶</span>
+</div>
+
+<section id="contact">
+<h2 class="section-title">お問い合わせ</h2>
+<p class="section-subtitle" style="color:#cfcfcf">CONTACT</p>
+
+<div class="contact-box">
+<h3>ご相談・ご依頼はこちらから</h3>
+<p>施工のご相談、業務委託のご依頼、協業に関するお問い合わせなど、お気軽にご連絡ください。内容を確認のうえ、担当よりご案内いたします。</p>
+<div class="contact-actions">
+<a href="tel:090-1317-8898" class="contact-btn primary">お電話でお問い合わせ</a>
+<a href="mailto:info@ry-lifeup.com" class="contact-btn secondary">メールでお問い合わせ</a>
+</div>
+</div>
+</section>
+
+<footer>
+<div class="footer-grid">
+<div>
+<div class="footer-title">会社情報</div>
+<p>株式会社Life-up</p>
+<p>〒918-8046 福井県福井市運動公園1丁目3606番地</p>
+<p>TEL：090-1317-8898</p>
+<p>MAIL：info@ry-lifeup.com</p>
+</div>
+<div>
+<div class="footer-title">事業内容</div>
+<p>重量物搬入据付</p>
+<p>内装工事一式</p>
+<p>仮設足場一式</p>
+<p>通信・業務委託請負</p>
+</div>
+<div>
+<div class="footer-title">サイトメニュー</div>
+<p><a href="#service" style="color:#d0d0d0;text-decoration:none;">事業内容</a></p>
+<p><a href="#about" style="color:#d0d0d0;text-decoration:none;">会社概要</a></p>
+<p><a href="#slider" style="color:#d0d0d0;text-decoration:none;">施工事例</a></p>
+<p><a href="#contact" style="color:#d0d0d0;text-decoration:none;">お問い合わせ</a></p>
+</div>
+</div>
+<p style="text-align:center;margin-top:30px;color:#aaa;">© Life-up</p>
+</footer>
+
+<script>
+const data=[
+{img:"https://images.unsplash.com/photo-1503387762-592deb58ef4e",title:"施工事例 01",desc:"重量物搬入据付の現場対応"},
+{img:"https://images.unsplash.com/photo-1504307651254-35680f356dfd",title:"施工事例 02",desc:"内装工事一式の施工事例"},
+{img:"https://images.unsplash.com/photo-1541888946425-d81bb19240f5",title:"施工事例 03",desc:"安全性を重視した足場施工"},
+{img:"https://images.unsplash.com/photo-1556742049-0cfed4f6a45d",title:"施工事例 04",desc:"通信分野における業務支援"},
+{img:"https://images.unsplash.com/photo-1503387762-592deb58ef4e",title:"施工事例 05",desc:"搬入計画と現場対応"},
+{img:"https://images.unsplash.com/photo-1504307651254-35680f356dfd",title:"施工事例 06",desc:"店舗・空間施工サポート"},
+{img:"https://images.unsplash.com/photo-1541888946425-d81bb19240f5",title:"施工事例 07",desc:"仮設足場の構築事例"},
+{img:"https://images.unsplash.com/photo-1556742049-0cfed4f6a45d",title:"施工事例 08",desc:"販売支援・現場運営サポート"}
+];
+
+const slides=document.getElementById("slides");
+slides.innerHTML=data.map((d,i)=>`
+<div class="slide">
+<img src="${d.img}" alt="${d.title}" onclick="openModal(${i})">
+</div>`).join("");
+
+let index=0;
+function showSlide(){
+slides.style.transform=`translateX(-${index*100}%)`;
+}
+function nextSlide(){
+index=(index+1)%data.length;
+showSlide();
+}
+function prevSlide(){
+index=(index-1+data.length)%data.length;
+showSlide();
+}
+
+/* スワイプ */
+let startX=0;
+slides.addEventListener("touchstart",e=>{
+startX=e.touches[0].clientX;
+});
+slides.addEventListener("touchend",e=>{
+let diff=startX-e.changedTouches[0].clientX;
+if(diff>50)nextSlide();
+if(diff<-50)prevSlide();
+});
+
+/* モーダル */
+let modalIndex=0;
+const modal=document.getElementById("modal");
+const modalImg=document.getElementById("modalImg");
+const modalTitle=document.getElementById("modalTitle");
+const modalDesc=document.getElementById("modalDesc");
+
+function openModal(i){
+modalIndex=i;
+modal.classList.add("active");
+updateModal();
+}
+function updateModal(){
+modalImg.src=data[modalIndex].img;
+modalTitle.textContent=data[modalIndex].title;
+modalDesc.textContent=data[modalIndex].desc;
+}
+function closeModal(e){
+if(e.target===modal){
+modal.classList.remove("active");
+}
+}
+function closeModalDirect(){
+modal.classList.remove("active");
+}
+function modalNext(e){
+e.stopPropagation();
+modalIndex=(modalIndex+1)%data.length;
+updateModal();
+}
+function modalPrev(e){
+e.stopPropagation();
+modalIndex=(modalIndex-1+data.length)%data.length;
+updateModal();
+}
+
+/* 事業内容アニメーション */
+const services=document.querySelectorAll('.service');
+const observer=new IntersectionObserver(entries=>{
+entries.forEach(e=>{
+if(e.isIntersecting){
+e.target.classList.add('show');
+}else{
+e.target.classList.remove('show');
+}
+});
+},{threshold:.18});
+services.forEach(el=>observer.observe(el));
+
+/* ハンバーガー */
+function toggleMenu(){
+document.getElementById('mobileNav').classList.toggle('active');
+}
+
+/* ヒーロー動画の読み込み完了時にフェードイン */
+const hero = document.getElementById('hero');
+const heroVideo = document.getElementById('heroVideo');
+
+if (heroVideo) {
+heroVideo.addEventListener('loadeddata', () => {
+hero.classList.add('video-ready');
+});
+
+heroVideo.addEventListener('canplay', () => {
+hero.classList.add('video-ready');
+});
+
+heroVideo.addEventListener('error', () => {
+hero.classList.remove('video-ready');
+});
+}
+</script>
+
+</body>
+</html>
