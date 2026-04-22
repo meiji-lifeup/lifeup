@@ -21,6 +21,19 @@ line-height:1.7;
 img{max-width:100%;display:block}
 h1,h2,h3,h4,p{margin:0}
 section{padding:90px 6%}
+.section-title,
+.section-subtitle{
+opacity:0;
+transform:translateY(24px);
+transition:
+opacity .8s ease,
+transform .8s cubic-bezier(.22,1,.36,1);
+}
+.section-title.show,
+.section-subtitle.show{
+opacity:1;
+transform:translateY(0);
+}
 .section-title{
 font-size:34px;
 margin-bottom:16px;
@@ -263,13 +276,131 @@ transform:translateY(0);
 }
 }
 
+/* 色付きの影 */
+.accent-panel{
+position:relative;
+isolation:isolate;
+}
+
+.accent-panel::before{
+content:"";
+position:absolute;
+z-index:-2;
+left:22px;
+right:22px;
+top:20px;
+bottom:-14px;
+border-radius:28px;
+opacity:0;
+transform:translateY(14px) scale(.96);
+filter:blur(22px);
+transition:
+opacity .85s ease,
+transform .85s cubic-bezier(.22,1,.36,1);
+pointer-events:none;
+}
+
+.accent-panel.show::before{
+opacity:1;
+transform:translateY(0) scale(1);
+}
+
+.panel-blue::before{
+background:radial-gradient(ellipse at center, rgba(122,162,255,.28) 0%, rgba(122,162,255,.10) 45%, rgba(122,162,255,0) 78%);
+}
+
+.panel-gold::before{
+background:radial-gradient(ellipse at center, rgba(212,175,55,.24) 0%, rgba(212,175,55,.08) 45%, rgba(212,175,55,0) 78%);
+}
+
+.panel-dark::before{
+background:radial-gradient(ellipse at center, rgba(70,70,70,.22) 0%, rgba(70,70,70,.08) 45%, rgba(70,70,70,0) 78%);
+}
+
+/* 立体カード */
+.framed-card{
+position:relative;
+background:rgba(255,255,255,.88);
+backdrop-filter:blur(8px);
+border-radius:22px;
+padding:28px 28px;
+box-shadow:
+0 8px 18px rgba(0,0,0,.06),
+0 18px 42px rgba(0,0,0,.08);
+opacity:0;
+transition:
+transform .85s cubic-bezier(.22,1,.36,1),
+opacity .85s ease,
+box-shadow .85s ease;
+will-change:transform, opacity, box-shadow;
+height:100%;
+display:flex;
+flex-direction:column;
+justify-content:center;
+}
+
+/* 右から飛び出す */
+.frame-right{
+transform:translateX(54px) translateY(18px) scale(.94);
+}
+
+/* 左から飛び出す */
+.frame-left{
+transform:translateX(-54px) translateY(18px) scale(.94);
+}
+
+/* 下から持ち上がる */
+.frame-up{
+transform:translateY(36px) scale(.95);
+}
+
+.framed-card.show{
+opacity:1;
+transform:translateX(0) translateY(0) scale(1);
+box-shadow:
+0 14px 28px rgba(0,0,0,.08),
+0 30px 70px rgba(0,0,0,.14);
+}
+
+/* 下影で立体感 */
+.framed-card::after{
+content:"";
+position:absolute;
+left:18px;
+right:18px;
+bottom:-14px;
+height:22px;
+background:radial-gradient(ellipse at center, rgba(0,0,0,.16) 0%, rgba(0,0,0,0) 72%);
+filter:blur(8px);
+opacity:0;
+transform:translateY(-6px) scale(.92);
+transition:
+opacity .85s ease,
+transform .85s cubic-bezier(.22,1,.36,1);
+pointer-events:none;
+z-index:-1;
+}
+
+.framed-card.show::after{
+opacity:1;
+transform:translateY(0) scale(1);
+}
+
+.framed-card.show:hover{
+transform:translateY(-6px) scale(1.01);
+box-shadow:
+0 18px 34px rgba(0,0,0,.10),
+0 36px 82px rgba(0,0,0,.16);
+}
+
 /* 事業内容 */
 #service{background:#fafafa}
 .service{
 display:flex;
 gap:34px;
 margin-bottom:70px;
-align-items:center;
+align-items:stretch;
+min-height:280px;
 opacity:0;
 transform:translateY(60px) scale(.96);
 transition:opacity .8s ease, transform .8s cubic-bezier(.22,1,.36,1);
@@ -278,8 +409,25 @@ transition:opacity .8s ease, transform .8s cubic-bezier(.22,1,.36,1);
 opacity:1;
 transform:translateY(0) scale(1);
 }
-.service img{
+
+.service-image-wrap{
 width:50%;
+opacity:0;
+transform:translateY(18px) scale(.98);
+transition:
+opacity .75s ease,
+transform .75s cubic-bezier(.22,1,.36,1);
+}
+
+.service.show .service-image-wrap{
+opacity:1;
+transform:translateY(0) scale(1);
+}
+
+.service img{
+width:100%;
+height:100%;
+object-fit:cover;
 border-radius:16px;
 box-shadow:0 12px 34px rgba(0,0,0,.14);
 transition:transform .45s ease, box-shadow .45s ease;
@@ -288,20 +436,26 @@ transition:transform .45s ease, box-shadow .45s ease;
 transform:scale(1.045) translateY(-6px);
 box-shadow:0 24px 60px rgba(0,0,0,.22);
 }
+
 .service-text{
 width:50%;
 opacity:0;
 transition:
 opacity .8s ease,
 transform .8s cubic-bezier(.22,1,.36,1);
+padding-top:20px;
+padding-bottom:20px;
 }
+
 .service-text h3{
-font-size:28px;
-margin-bottom:14px;
+font-size:27px;
+line-height:1.35;
+margin-bottom:12px;
 }
 .service-text p{
 color:#555;
 font-size:15px;
+line-height:1.85;
 }
 
 /* 左右交互 */
@@ -312,12 +466,13 @@ flex-direction:row-reverse;
 /* テキストの出現方向 */
 .service:nth-child(odd) .service-text{
 transform:translateX(80px);
+transition-delay:.14s;
 }
 .service:nth-child(even) .service-text{
 transform:translateX(-80px);
+transition-delay:.14s;
 }
 
-/* 表示時は中央へ */
 .service.show .service-text{
 opacity:1;
 transform:translateX(0);
@@ -365,16 +520,6 @@ box-shadow:0 14px 40px rgba(0,0,0,.08);
 .about-message{
 position:relative;
 overflow:hidden;
-}
-.about-message::before{
-content:"";
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:5px;
-background:linear-gradient(90deg,#111,#666,#111);
-opacity:.9;
 }
 .about-message h3{
 font-size:26px;
@@ -428,12 +573,26 @@ background:#fff;
 border-radius:20px;
 padding:28px 24px;
 box-shadow:0 14px 40px rgba(0,0,0,.08);
-transition:.3s;
+opacity:0;
+transform:translateY(42px) scale(.96);
+transition:
+opacity .8s ease,
+transform .8s cubic-bezier(.22,1,.36,1),
+box-shadow .35s ease;
+will-change:transform, opacity;
+}
+.strength-card.show{
+opacity:1;
+transform:translateY(0) scale(1);
+box-shadow:0 18px 44px rgba(0,0,0,.12);
 }
 .strength-card:hover{
-transform:translateY(-6px);
-box-shadow:0 22px 48px rgba(0,0,0,.14);
+transform:translateY(-6px) scale(1.01);
+box-shadow:0 24px 54px rgba(0,0,0,.16);
 }
+.strength-card:nth-child(1){transition-delay:.05s;}
+.strength-card:nth-child(2){transition-delay:.14s;}
+.strength-card:nth-child(3){transition-delay:.23s;}
 .strength-number{
 font-size:13px;
 letter-spacing:.18em;
@@ -671,20 +830,38 @@ width:100%;
 max-width:320px;
 }
 
+.framed-card{
+padding:22px 20px;
+}
+.frame-right,
+.frame-left,
+.frame-up{
+transform:translateY(28px) scale(.96);
+}
+.framed-card.show{
+transform:translateY(0) scale(1);
+}
+
 .service{
 flex-direction:column !important;
 gap:22px;
+min-height:unset;
 }
-.service img,.service-text{
+.service-image-wrap,
+.service img,
+.service-text{
 width:100%;
+height:auto;
 }
-.service-text h3{
-font-size:24px;
+.service-text{
+min-height:unset;
+padding-top:0;
+padding-bottom:0;
 }
-
 .service:nth-child(odd) .service-text,
 .service:nth-child(even) .service-text{
 transform:translateY(40px);
+transition-delay:.08s;
 }
 .service.show .service-text{
 transform:translateY(0);
@@ -700,6 +877,21 @@ padding:26px 22px;
 }
 .info-table{
 grid-template-columns:100px 1fr;
+}
+
+.strength-card{
+transform:translateY(28px) scale(.97);
+}
+.strength-card.show{
+transform:translateY(0) scale(1);
+}
+
+.accent-panel::before{
+left:14px;
+right:14px;
+top:14px;
+bottom:-10px;
+filter:blur(18px);
 }
 
 .slide img{
@@ -771,32 +963,40 @@ grid-template-columns:1fr;
 <p class="section-subtitle">SERVICE</p>
 
 <div class="service">
+<div class="service-image-wrap">
 <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e" alt="重量物搬入据付">
-<div class="service-text">
+</div>
+<div class="service-text framed-card frame-right accent-panel panel-blue">
 <h3>重量物搬入据付</h3>
 <p>大型機器や重量物の搬入・据付を、安全性と正確性を重視して対応します。現場条件に応じた段取りと施工計画で、スムーズな導入を実現します。</p>
 </div>
 </div>
 
 <div class="service">
+<div class="service-image-wrap">
 <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd" alt="内装工事一式">
-<div class="service-text">
+</div>
+<div class="service-text framed-card frame-left accent-panel panel-gold">
 <h3>内装工事一式</h3>
 <p>設計意図と現場品質の両立を意識し、内装工事を一貫して対応。店舗・オフィス・各種施設において、使いやすく価値ある空間づくりを支えます。</p>
 </div>
 </div>
 
 <div class="service">
+<div class="service-image-wrap">
 <img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5" alt="仮設足場一式">
-<div class="service-text">
+</div>
+<div class="service-text framed-card frame-right accent-panel panel-dark">
 <h3>仮設足場一式</h3>
 <p>施工効率と作業安全を両立する足場計画・施工を行います。現場ごとの条件に応じて、安心して作業できる足場環境を構築します。</p>
 </div>
 </div>
 
 <div class="service">
+<div class="service-image-wrap">
 <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d" alt="通信・業務委託請負">
-<div class="service-text">
+</div>
+<div class="service-text framed-card frame-left accent-panel panel-blue">
 <h3>通信・業務委託請負</h3>
 <p>ショップ・量販店・催事イベントなどでのスマートフォン販売支援や接客業務を中心に、現場運営を支える業務委託サービスを提供しています。</p>
 </div>
@@ -808,13 +1008,13 @@ grid-template-columns:1fr;
 <h2 class="section-title">会社概要</h2>
 <p class="section-subtitle">ABOUT US</p>
 
-<div class="about-lead">
+<div class="about-lead framed-card frame-up accent-panel panel-blue">
 <h3>現場に強く、信頼で選ばれる会社へ。</h3>
 <p>株式会社Life-upは、施工現場における確かな技術と、対人業務における柔軟な対応力の両方を強みに、幅広い事業領域で価値を提供する会社です。単に業務をこなすだけではなく、現場・取引先・お客様それぞれにとって「任せてよかった」と感じていただける仕事を積み重ねることを大切にしています。</p>
 </div>
 
 <div class="about-main">
-<div class="about-message">
+<div class="about-message framed-card frame-left accent-panel panel-gold">
 <h3>ごあいさつ</h3>
 <p>当社は、重量物搬入据付、内装工事、仮設足場、通信分野の業務支援まで、多様な現場に対応する実務力を基盤として事業を展開しています。</p>
 <p>どの事業においても共通しているのは、現場を理解し、求められる品質を着実に形にしていく姿勢です。安全性、丁寧さ、スピード感、そして信頼関係を何より重視し、1件1件の仕事に真摯に向き合っています。</p>
@@ -822,7 +1022,7 @@ grid-template-columns:1fr;
 <div class="about-sign">株式会社Life-up</div>
 </div>
 
-<div class="about-info">
+<div class="about-info framed-card frame-right accent-panel panel-dark">
 <h3>会社情報</h3>
 <div class="info-table">
 <div class="info-row">
@@ -1018,8 +1218,10 @@ modalIndex=(modalIndex-1+data.length)%data.length;
 updateModal();
 }
 
-/* 事業内容アニメーション */
-const services=document.querySelectorAll('.service');
+/* アニメーション */
+const animatedBlocks=document.querySelectorAll(
+'.service, .service-text, .service-image-wrap, .framed-card, .strength-card, .section-title, .section-subtitle, .accent-panel'
+);
 const observer=new IntersectionObserver(entries=>{
 entries.forEach(e=>{
 if(e.isIntersecting){
@@ -1029,7 +1231,7 @@ e.target.classList.remove('show');
 }
 });
 },{threshold:.18});
-services.forEach(el=>observer.observe(el));
+animatedBlocks.forEach(el=>observer.observe(el));
 
 /* ハンバーガー */
 function toggleMenu(){
