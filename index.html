@@ -50,11 +50,38 @@ backdrop-filter:blur(8px);
 color:#fff;
 z-index:1000;
 }
-header h1{
+
+.header-brand{
+display:flex;
+align-items:center;
+gap:12px;
+min-width:0;
+}
+
+.logo-box{
+width:48px;
+height:48px;
+display:flex;
+align-items:center;
+justify-content:center;
+flex-shrink:0;
+}
+
+.logo{
+width:100%;
+height:100%;
+object-fit:contain;
+display:block;
+}
+
+.header-title{
 font-size:22px;
 font-weight:700;
 letter-spacing:.05em;
+white-space:nowrap;
+line-height:1.1;
 }
+
 nav.desktop-nav{
 display:flex;
 align-items:center;
@@ -622,8 +649,12 @@ grid-template-columns:130px 1fr;
 }
 
 @media(max-width:768px){
-header h1{
-font-size:20px;
+.logo-box{
+width:38px;
+height:38px;
+}
+.header-title{
+font-size:18px;
 }
 nav.desktop-nav{display:none}
 .hamburger{display:block}
@@ -691,13 +722,20 @@ grid-template-columns:1fr;
 <body>
 
 <header>
-<h1>株式会社Life-up</h1>
+<div class="header-brand">
+  <div class="logo-box">
+    <img src="./img/4.png" alt="Life-up ロゴ" class="logo">
+  </div>
+  <div class="header-title">株式会社Life-up</div>
+</div>
+
 <nav class="desktop-nav">
 <a href="#service">事業内容</a>
 <a href="#about">会社概要</a>
 <a href="#slider">施工事例</a>
 <a href="#contact">お問い合わせ</a>
 </nav>
+
 <div class="hamburger" onclick="toggleMenu()">
 <span></span><span></span><span></span>
 </div>
